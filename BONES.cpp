@@ -18,34 +18,18 @@ typedef unsigned long long ull;
 #define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-const int N = 60005;
-
-int n, t[N], x;
-ll res = 0ll;
-
-int retrieve(int x) {
-	int ans = 0;
-	for (; x<N; x+=x&-x) ans += t[x];
-	return ans;
-}
-
-void update(int x) {
-	for (; x>0; x-=x&-x) t[x]++;
-}
+const int N = 100;
+int a, b, c, cnt[N];
 
 int main() {
 //  freopen("INP.TXT", "r", stdin);
 //  freopen("OUT.TXT", "w", stdout);
 
-	cin >> n;
-	FOR(i,1,n) {
-		scanf("%d", &x);
-		res += retrieve(x+1);
-		update(x);
-	}
-
-	cout << res << endl;
-
+	scanf("%d%d%d", &a,&b,&c);
+	FOR(i,1,a) FOR(j,1,b) FOR(k,1,c) cnt[i+j+k]++;
+	int ans = 0;
+	FOR(i,1,a+b+c) if (cnt[ans] < cnt[i]) ans = i;
+	printf("%d\n", ans);
 
 	return 0;
 }

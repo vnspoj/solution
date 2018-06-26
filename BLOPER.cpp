@@ -18,34 +18,41 @@ typedef unsigned long long ull;
 #define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-const int N = 60005;
-
-int n, t[N], x;
-ll res = 0ll;
-
-int retrieve(int x) {
-	int ans = 0;
-	for (; x<N; x+=x&-x) ans += t[x];
-	return ans;
-}
-
-void update(int x) {
-	for (; x>0; x-=x&-x) t[x]++;
-}
+int n, s, a[505], sum;
 
 int main() {
 //  freopen("INP.TXT", "r", stdin);
 //  freopen("OUT.TXT", "w", stdout);
 
-	cin >> n;
-	FOR(i,1,n) {
-		scanf("%d", &x);
-		res += retrieve(x+1);
-		update(x);
+	scanf("%d%d", &n,&s);
+	sum = n*(n+1)/2;
+	FOD(i,n,1) {
+		if (sum-2*i >= s) {
+			a[i] = 1;
+			sum -= 2*i;
+		}
 	}
-
-	cout << res << endl;
-
+	if (sum == s) {
+		if (a[1]) {
+			FOR(i,4,n) {
+				if (a[1] == 0) break;
+				if (a[i])
+					FOR(j,2,i/2)
+					if (a[j] == 0 && a[i+1-j] == 0) {
+						a[j] = a[i+1-j] = 1;
+						a[1] = a[i] = 0;
+						break;
+					}
+			}
+			if (a[1]) {
+				puts("Impossible");
+				return 0;
+			}
+		}
+		printf("1");
+		FOR(i,2,n)
+		printf("%c%d", (a[i] == 1) ? '-' : '+', i);
+	} else puts("Impossible");
 
 	return 0;
 }

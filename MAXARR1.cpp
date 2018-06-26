@@ -4,52 +4,47 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int,int> ii;
+typedef unsigned long long ull;
 
 #define X first
 #define Y second
 #define pb push_back
+#define mp make_pair
+#define ep emplace_back
 #define EL printf("\n")
 #define sz(A) (int) A.size()
 #define FOR(i,l,r) for (int i=l;i<=r;i++)
 #define FOD(i,r,l) for (int i=r;i>=l;i--)
+#define fillchar(a,x) memset(a, x, sizeof (a))
+#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
 
 const int N = 1e5;
 int T, n, a[N+1], f[N+1];
 
 void initializeArray() {
-  a[0] = 0; f[0] = 0;
-  a[1] = 1; f[1] = 1;
-  FOR(i,2,N) {
-    a[i] = a[i/2] + i%2 * a[i/2+1];
-    f[i] = max(f[i-1], a[i]);
-  }
+	a[0] = 0;
+	f[0] = 0;
+	a[1] = 1;
+	f[1] = 1;
+	FOR(i,2,N) {
+		a[i] = a[i/2] + i%2 * a[i/2+1];
+		f[i] = max(f[i-1], a[i]);
+	}
 }
 
-int main()
-{
+int main() {
 //  freopen("INP.TXT", "r", stdin);
 //  freopen("OUT.TXT", "w", stdout);
 
-  initializeArray();
+	initializeArray();
 
-  cin >> T;
-  FOR(i,1,T) {
-    scanf("%d", &n);
-    printf("%d\n", f[n]);
-  }
+	cin >> T;
+	FOR(i,1,T) {
+		scanf("%d", &n);
+		printf("%d\n", f[n]);
+	}
 
 
-  return 0;
+	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-

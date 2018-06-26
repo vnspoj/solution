@@ -9,43 +9,34 @@ typedef unsigned long long ull;
 #define X first
 #define Y second
 #define pb push_back
-#define mp make_pair
-#define ep emplace_back
 #define EL printf("\n")
 #define sz(A) (int) A.size()
 #define FOR(i,l,r) for (int i=l;i<=r;i++)
 #define FOD(i,r,l) for (int i=r;i>=l;i--)
-#define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-const int N = 60005;
-
-int n, t[N], x;
-ll res = 0ll;
-
-int retrieve(int x) {
-	int ans = 0;
-	for (; x<N; x+=x&-x) ans += t[x];
-	return ans;
-}
-
-void update(int x) {
-	for (; x>0; x-=x&-x) t[x]++;
-}
+const int N = 1e6;
+int n, m, a[N+1], x, ans;
+ll sum;
 
 int main() {
 //  freopen("INP.TXT", "r", stdin);
 //  freopen("OUT.TXT", "w", stdout);
 
-	cin >> n;
-	FOR(i,1,n) {
-		scanf("%d", &x);
-		res += retrieve(x+1);
-		update(x);
+	scanf("%d%d", &n,&m);
+	FOR(i,1,m) scanf("%d", &x), a[x]++;
+
+	FOD(i,N-1,1) a[i] += a[i+1];
+
+	FOR(i,1,N) {
+		ll tmp = i*(min(a[i],n));
+		if (tmp > sum) {
+			sum = tmp;
+			ans = i;
+		}
 	}
 
-	cout << res << endl;
-
+	printf("%d %lld\n", ans, sum);
 
 	return 0;
 }
