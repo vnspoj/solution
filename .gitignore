@@ -41,3 +41,6 @@ _site/
 
 # VS Code 
 .vscode
+
+# generated files
+files
