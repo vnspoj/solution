@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int) A.size()
+#define FOR(i,l,r) for (int i=l;i<=r;i++)
+#define FOD(i,r,l) for (int i=r;i>=l;i--)
+#define fillchar(a,x) memset(a, x, sizeof (a))
+#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+
+const int   N = 1000000, oo = 1000000000;
+int         t, m, n, x;
+ll          res;
+
+
+int main() {
+//  freopen("INP.TXT", "r", stdin);
+//  freopen("OUT.TXT", "w", stdout);
+
+	scanf("%d", &t);
+	while (t--) {
+		scanf("%d", &m);
+		if (m == 1) printf("0\n");
+		else {
+			res = oo;
+			for (int i=1; i<=m; i++) {
+				ll ans = 0;
+				x = i;
+				n = m;
+				while (1) {
+					if (n == 1 and x == 1) break;
+					ans++;
+					if (ans >= res) break;
+					n = n-x;
+					if (n < x) swap(n,x);
+				}
+				res = min(res,ans);
+			}
+			printf("%lld\n", res);
+		}
+	}
+
+	return 0;
+}
