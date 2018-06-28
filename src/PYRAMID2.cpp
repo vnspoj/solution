@@ -28,7 +28,7 @@ int main() {
 //  freopen("OUT.TXT", "w", stdout);
 
 	scanf("%d\n", &n);
-	gets(c);
+	scanf("%s\n", &c);
 
 	l = 0;
 	while (l < n and c[l] == '<') l++, m++;

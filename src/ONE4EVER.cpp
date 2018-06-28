@@ -20,14 +20,14 @@ typedef unsigned long long ull;
 
 struct mat {
 	int x, y;
-	llu a[4][4];
+	ull a[4][4];
 };
 
 int T;
-llu a, b, m, n;
+ull a, b, m, n;
 mat u, v;
 
-llu solve(llu x, llu y) {
+ull solve(ull x, ull y) {
 	if (x == 0 || y == 0) return 0;
 	string X = "", Y = "";
 	for (; x>0; x/=10) X += char(x % 10 + '0');
@@ -43,9 +43,9 @@ llu solve(llu x, llu y) {
 		}
 		if (c > 0) Z[i+Y.size()] = char(Z[i+Y.size()]-'0'+c+'0');
 	}
-	llu ans = 0;
+	ull ans = 0;
 	FOD(i,Z.size()-1,0)
-	ans = (ans*10llu + Z[i]-'0') % m;
+	ans = (ans*10ull + Z[i]-'0') % m;
 	return ans;
 }
 
@@ -56,11 +56,10 @@ mat operator * (mat a, mat b) {
 	FOR(j,1,c.y)
 	FOR(k,1,a.y)
 	c.a[i][j] = (c.a[i][j] + solve(a.a[i][k]%m, b.a[k][j]%m)) % m;
-	//c.a[i][j] = (c.a[i][j] + a.a[i][k]%m * b.a[k][j]%m) %m;
 	return c;
 }
 
-mat Power(mat a, llu x) {
+mat Power(mat a, ull x) {
 	if (x == 1) return a;
 	mat ans = Power(a, x/2);
 	if (x%2) return ans * ans *a;
@@ -76,7 +75,7 @@ int main() {
 	while (T--) {
 		cin >> a >> b >> m >> n;
 		if (n == 1) {
-			printf("%llu\n", b%m);
+			printf("%ull\n", b%m);
 			continue;
 		}
 		u.x = 2;
@@ -89,7 +88,7 @@ int main() {
 		v.a[1][2] = v.a[2][2] = 1%m;
 
 		u = Power(v, n-1) * u;
-		printf("%llu\n", u.a[1][1]);
+		printf("%ull\n", u.a[1][1]);
 	}
 
 	return 0;

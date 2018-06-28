@@ -26,7 +26,7 @@ int main() {
 //  freopen("OUT.TXT", "w", stdout);
 
 	while (1) {
-		gets(s);
+		scanf("%s\n", &s);
 		if (s[strlen(s)-2] == 'D') break;
 		scanf("%d\n\n", &n);
 		if (res[n%5] == 0)

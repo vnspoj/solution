@@ -38,7 +38,6 @@ int main() {
 	scanf("%d", &n);
 	for (int i=1; i<=n; i++) scanf("%d%d", &a[i].a, &a[i].b);
 	sort(a+1,a+n+1,cmp);
-	//for (int i=1;i<=n;i++) printf("%d %d\n",a[i].a,a[i].b);
 	res = 1;
 	s[1] = a[1].a;
 	for (int i=2; i<=n; i++) {
