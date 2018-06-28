@@ -2,6 +2,8 @@
 
 Serve static files solving problems on vn.spoj.com
 
-The tutorial for problems at [https://vnspoj.github.io/](https://vnspoj.github.io/)
+### Webpage
+Visit our webpage at [https://vnspoj.github.io/](https://vnspoj.github.io/)
 
-Source code available at `https://vnspoj.github.io/solution/src/*.cpp`
+### Implementation
+The solution to the specific problem in plain code can be found [here](https://vnspoj.github.io/solution/src/) under `<name>.cpp`
