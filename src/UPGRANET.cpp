@@ -74,7 +74,7 @@ bool upper(int u, int v) {
 int lca(int u, int v) {
 	if (upper(u,v)) return u;
 	if (upper(v,u)) return v;
-	FORD(i,lg,0)
+	FOD(i,lg,0)
 	if (up[u][i].X > 0 and !upper(up[u][i].X,v)) u = up[u][i].X;
 	return up[u][0].X;
 }
@@ -82,7 +82,7 @@ int lca(int u, int v) {
 int get(int pa, int u) {
 	if (pa == u) return oo;
 	int ans = oo;
-	FORD(i,lg,0)
+	FOD(i,lg,0)
 	if (up[u][i].X > 0 and !upper(up[u][i].X, pa)) {
 		ans = min(ans, up[u][i].Y);
 		u = up[u][i].X;

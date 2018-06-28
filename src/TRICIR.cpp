@@ -34,7 +34,7 @@ int main() {
 //  freopen("OUT.TXT", "w", stdout);
 
 	for (;;) {
-		gets(ch);
+		scanf("%s\n", &ch);
 		if (ch[1] == 'E') return 0;
 		scanf("%d%d%lld%lld%lld\n", &n,&p,&a,&b,&c);
 		if (n%2) {
