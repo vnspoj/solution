@@ -27,8 +27,8 @@ int main() {
 
 	for (int i=1; i<=n; i++) scanf("%d",&a[i]);
 	for (int i=1; i<=n; i++) {
-		f1[i] = max(f1[i-1],f2[i-1]+Int(a[i]));
-		f2[i] = max(f2[i-1],f1[i-1]-Int(a[i]));
+		f1[i] = max(f1[i-1],f2[i-1]+ll(a[i]));
+		f2[i] = max(f2[i-1],f1[i-1]-ll(a[i]));
 	}
 	res = max(f1[n],f2[n]);
 	printf("%lld",res);

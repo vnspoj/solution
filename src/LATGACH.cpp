@@ -18,6 +18,9 @@ typedef unsigned long long ull;
 #define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+const int base = 1e9;
+typedef vector<int> BigInt;
+
 void Print(BigInt a) {
 	printf("%d", a.back());
 	FOD(i,a.size()-2,0) printf("%09d", a[i]);
