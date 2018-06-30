@@ -6,4 +6,4 @@ Serve static files solving problems on vn.spoj.com
 Visit our webpage at [https://vnspoj.github.io/](https://vnspoj.github.io/)
 
 ### Implementation
-The solution to the specific problem in plain code can be found [here](https://vnspoj.github.io/solution/src/) under `<name>.cpp`
+The solution to the specific problem in plain code can be found [here](https://github.com/vnspoj/solution/tree/master/src) under `<name>.cpp`
