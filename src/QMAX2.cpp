@@ -18,42 +18,45 @@ typedef unsigned long long ull;
 #define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-const int N = 50005;
-int n, m, lazy[4*N], t[4*N];
-int tp, L, R, val;
+const int N = 5e4+5;
+int n, m;
+ll t[N<<2], lazy[N<<2];
 
-void lazy_upd(int k, int l, int r) {
-	if (lazy[k] == 0) return ;
-	t[k] += lazy[k];
-	if (l < r) {
-		lazy[k*2] += lazy[k];
-		lazy[k*2+1] += lazy[k];
+void lazyUpdate(int k, int l, int r) {
+	if (lazy[k] > 0) {
+		t[k] += lazy[k];
+		if (l < r) {
+			lazy[k<<1] += lazy[k];
+			lazy[k*2+1] += lazy[k];
+		}
+		lazy[k] = 0ll;
 	}
-	lazy[k] = 0;
 }
 
-void upd(int k, int l, int r, int L, int R, int val) {
-	lazy_upd(k,l,r);
-	if (r < L || R < l) return ;
+void update(int k, int l, int r, int L, int R, int value) {
+	lazyUpdate(k, l, r);
+	if (r < L || R < l) return;
 	if (L <= l && r <= R) {
-		lazy[k] = val;
-		lazy_upd(k,l,r);
-		return ;
+		t[k] += (ll) value;
+		if (l < r) {
+			lazy[k<<1] += (ll) value;
+			lazy[k*2+1] += (ll) value;
+		}
+		return;
 	}
-	int mid = (l+r)/2;
-	upd(k*2,l,mid,L,R,val);
-	upd(k*2+1,mid+1,r,L,R,val);
-	t[k] = max(t[k*2], t[k*2+1]);
+	int m = (l+r)>>1;
+	update(k<<1, l, m, L, R, value);
+	update(k*2+1, m+1, r, L, R, value);
+	t[k] = max(t[k<<1], t[k*2+1]);
 }
 
-int get(int k, int l, int r, int L, int R) {
-	lazy_upd(k,l,r);
+ll findMax(int k, int l, int r, int L, int R) {
+	lazyUpdate(k,l,r);
 	if (r < L || R < l) return 0;
 	if (L <= l && r <= R) return t[k];
-	int mid = (l+r)/2;
-	return max(get(k*2,l,mid,L,R), get(k*2+1,mid+1,r,L,R));
+	int m = (l+r)>>1;
+	return max(findMax(k<<1, l, m, L, R), findMax(k*2+1, m+1, r, L, R));
 }
-
 
 int main() {
 //	freopen("INP.TXT", "r", stdin);
@@ -61,15 +64,16 @@ int main() {
 
 	cin >> n >> m;
 	while (m--) {
-		scanf("%d", &tp);
-		if (tp == 0) {
-			scanf("%d%d%d", &L,&R,&val);
-			upd(1,1,n,L,R,val);
+		int t, x, y;
+		scanf("%d%d%d", &t, &x, &y);
+		if (t == 0) {
+			int value;
+			scanf("%d", &value);
+			update(1,1,n,x,y,value);
 		} else {
-			scanf("%d%d", &L,&R);
-			printf("%d\n", get(1,1,n,L,R));
+			printf("%lld\n", findMax(1,1,n,x,y));
 		}
 	}
-    
+
 	return 0;
 }
