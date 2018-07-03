@@ -18,49 +18,47 @@ typedef unsigned long long ull;
 #define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+
 const int N = 50005;
-int n, m, a[N], tmax[4*N];
+int n, q, a[N], t[N<<2];
 
 void build(int k, int l, int r) {
 	if (l == r) {
-		tmax[k] = a[l];
-		return ;
+		t[k] = a[l]; return;
 	}
-	int mid = (l+r)/2;
-	build(k*2,l,mid);
-	build(k*2+1,mid+1,r);
-	tmax[k] = max(tmax[k*2], tmax[k*2+1]);
+	int m = (l+r)>>1;
+	build(k<<1, l, m);
+	build(k*2+1, m+1, r);
+	t[k] = max(t[k<<1], t[k*2+1]);
 }
 
-int get_max(int k, int l, int r, int L, int R) {
+int findMax(int k, int l, int r, int L, int R) {
 	if (r < L || R < l) return 0;
-	if (L <= l && r <= R) return tmax[k];
-	int mid = (l+r)/2;
-	return max(get_max(k*2, l, mid, L, R), get_max(k*2+1, mid+1, r, L, R));
+	if (L <= l && r <= R) return t[k];
+	int m = (l+r)>>1;
+	return max(findMax(k<<1, l, m, L, R), findMax(k*2+1, m+1, r, L, R));
 }
 
 int main() {
 //	freopen("INP.TXT", "r", stdin);
 //  freopen("OUT.TXT", "w", stdout);
 
-	cin >> n >> m;
-	while (m--) {
-		int i, j, k;
-		scanf("%d%d%d", &i,&j,&k);
-		a[i] += k;
-		a[j+1] -= k;
+	cin >> n >> q;
+	while (q--) {
+		int l, r, k;
+		scanf("%d%d%d", &l, &r, &k);
+		a[l] += k;
+		a[r+1] -= k;
 	}
 	FOR(i,2,n) a[i] += a[i-1];
 
 	build(1,1,n);
-
-	cin >> m;
-	while (m--) {
-		int L, R;
-		scanf("%d%d", &L,&R);
-		printf("%d\n", get_max(1,1,n,L,R));
+	cin >> q;
+	while (q--) {
+		int l, r;
+		scanf("%d%d", &l, &r);
+		printf("%d\n", findMax(1,1,n,l,r));
 	}
-
 
 	return 0;
 }

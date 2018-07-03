@@ -35,7 +35,7 @@ int main() {
 	ll x, y;
 	while (scanf("%lld", &x) == 1) {
 		scanf("%lld", &y);
-		if (x == 0 and y == 0) return 0;
+		if (x == 0 && y == 0) return 0;
 		res = 0;
 		if (x < y) swap(x,y);
 		solve(x,y);

@@ -18,51 +18,61 @@ typedef unsigned long long ull;
 #define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+struct data {
+	int vmax, vmin;
+};
+
 const int N = 50005;
-int n, q, a[N], tmax[4*N], tmin[4*N];
+const int HMAX = 1e6+6;
+int n, q, a[N];
+data t[N<<2];
+
+data combine(data l, data r) {
+	return {
+		max(l.vmax, r.vmax),
+		min(l.vmin, r.vmin)
+	};
+}
 
 void build(int k, int l, int r) {
 	if (l == r) {
-		tmax[k] = tmin[k] = a[l];
-		return ;
+		t[k] = { a[l], a[l] };
+		return;
 	}
-	int mid = (l+r)>>1;
-	build(k*2, l, mid);
-	build(k*2+1, mid+1, r);
-	tmax[k] = max(tmax[k*2], tmax[k*2+1]);
-	tmin[k] = min(tmin[k*2], tmin[k*2+1]);
+	int m = (l+r)>>1;
+	build(k<<1, l, m);
+	build(k*2+1, m+1, r);
+	t[k] = combine(t[k<<1], t[k*2+1]);
 }
 
-int get_max(int k, int l, int r, int L, int R) {
+int findMax(int k, int l, int r, int L, int R) {
 	if (r < L || R < l) return 0;
-	if (L <= l && r <= R) return tmax[k];
-	int mid = (l+r)>>1;
-	return max(get_max(k*2, l, mid, L, R), get_max(k*2+1, mid+1, r, L, R));
+	if (L <= l && r <= R) return t[k].vmax;
+	int m = (l+r)>>1;
+	return max(findMax(k<<1, l, m, L, R), findMax(k*2+1, m+1, r, L, R));
 }
 
-int get_min(int k, int l, int r, int L, int R) {
-	if (r < L || R < l) return 1e6;
-	if (L <= l && r <= R) return tmin[k];
-	int mid = (l+r)>>1;
-	return min(get_min(k*2, l, mid, L, R), get_min(k*2+1, mid+1, r, L, R));
+int findMin(int k, int l, int r, int L, int R) {
+	if (r < L || R < l) return HMAX;
+	if (L <= l && r <= R) return t[k].vmin;
+	int m = (l+r)>>1;
+	return min(findMin(k<<1, l, m, L, R), findMin(k*2+1, m+1, r, L, R));
 }
-
-
 
 int main() {
 //	freopen("INP.TXT", "r", stdin);
 //  freopen("OUT.TXT", "w", stdout);
 
 	cin >> n >> q;
-	FOR(i,1,n) scanf("%d", &a[i]);
+	FOR(i,1,n) scanf("%d", a+i);
 
 	build(1,1,n);
 
 	while (q--) {
-		int L, R;
-		scanf("%d%d", &L,&R);
-		int ans = get_max(1,1,n,L,R) - get_min(1,1,n,L,R);
-		printf("%d\n", ans);
+		int l, r;
+		scanf("%d%d", &l, &r);
+		int res = findMax(1,1,n,l,r) - findMin(1,1,n,l,r);
+		printf("%d\n", res);
 	}
 
 	return 0;

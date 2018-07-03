@@ -33,10 +33,10 @@ trie root = New();
 void dfs(trie a) {
 	a->g = a->f;
 	FOR(i,0,1)
-	if (a->c[i] != nullptr) {
-		dfs(a->c[i]);
-		a->g += a->c[i]->g;
-	}
+		if (a->c[i] != nullptr) {
+			dfs(a->c[i]);
+			a->g += a->c[i]->g;
+		}
 }
 
 int main() {
@@ -76,3 +76,4 @@ int main() {
 
 	return 0;
 }
+
