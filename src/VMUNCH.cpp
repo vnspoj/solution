@@ -9,76 +9,62 @@ typedef unsigned long long ull;
 #define X first
 #define Y second
 #define pb push_back
-#define mp make_pair
-#define ep emplace_back
 #define EL printf("\n")
 #define sz(A) (int) A.size()
 #define FOR(i,l,r) for (int i=l;i<=r;i++)
 #define FOD(i,r,l) for (int i=r;i>=l;i--)
-#define fillchar(a,x) memset(a, x, sizeof (a))
-#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-struct qwe {
-	int x, y;
-};
+const int N = 1005;
+int n, m;
+char a[N][N];
+ii pB, pC;
+queue<ii> st;
+map<ii,bool> dd;
+map<ii,int> res;
+int dX[] = { -1, 0, 0, 1 };
+int dY[] = { 0, -1, 1, 0 };
 
-qwe     que[1500000];
-int     n,m,a[150][150],l,r,u,v,s,t,res[150][150];
-char    c[150];
+int main()
+{
+    // freopen("INP.TXT", "r", stdin);
+    // freopen("OUT.TXT", "w", stdout);
 
-bool kt(int d, int f) {
-	return (1 <= d and d <= n and 1 <= f and f <= m);
-}
+    cin >> n >> m;
+    FOR(i,1,n) {
+        FOR(j,1,m) cin >> a[i][j];
+    }
 
-void xet(int d, int f) {
-	if (kt(d,f) and a[d][f] == 1) {
-		a[d][f] = 0;
-		r++;
-		que[r].x = d;
-		que[r].y = f;
-		res[d][f] = res[u][v] + 1;
-	}
-}
+    FOR(i,1,n) FOR(j,1,m) {
+        if (a[i][j] == 'B') pB = { i, j };
+        else if (a[i][j] == 'C') pC = { i, j };
+    }
 
+    st.push(pC); dd[pC] = true;
+    res[pC] = 1;
 
-int main() {
-//	freopen("INP.TXT", "r", stdin);
-//  freopen("OUT.TXT", "w", stdout);
+    bool found = false;
+    while (!st.empty() && !found) {
+        ii p = st.front();
+        st.pop();
+        FOR(k,0,3) {
+            int nX = p.X + dX[k];
+            int nY = p.Y + dY[k];
+            ii nP = { nX, nY };
+            if (nX < 1 || nX > n || nY < 1 || nY > m || dd[nP] || a[nX][nY] == '*') {
+                continue;
+            }
+            if (nP == pB) {
+                res[pB] = res[p];
+                found = true;
+                break;
+            }
+            dd[nP] = true;
+            st.push(nP);
+            res[nP] = res[p] + 1;
+        }
+    }
 
-	scanf("%d%d",&n,&m);
-	for (int i=1; i<=n; i++) {
-		scanf("%s",&c);
-		for (int j=0; j<m; j++) {
-			if (c[j] == '.') a[i][j+1] = 1;
-			else if (c[j] == 'C') {
-				u = i;
-				v = j+1;
-			} else if (c[j] == 'B') {
-				s = i;
-				t = j+1;
-				a[s][t] = 1;
-			}
-		}
-	}
-	l = 1;
-	r = 1;
-	que[1].x = u;
-	que[1].y = v;
-	res[u][v] = 0;
-	while (l <= r) {
-		u = que[l].x;
-		v = que[l].y;
-		if (u == s and v == t) {
-			printf("%d",res[u][v]);
-			return 0;
-		}
-		xet(u-1,v);
-		xet(u+1,v);
-		xet(u,v-1);
-		xet(u,v+1);
-		l++;
-	}
-	printf("0");
+    cout << res[pB] << endl;
 
-	return 0;
+    return 0;
 }
