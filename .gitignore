@@ -47,3 +47,6 @@ _site/
 
 # generated files
 files
+
+# local files
+input.txt
