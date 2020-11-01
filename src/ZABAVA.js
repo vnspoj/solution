@@ -34,35 +34,45 @@ function initArray(nDimensions = 2, defaultValue = 0, ...nSizes) {
 
 function input(stdin_input) {
   const lines = stdin_input.split("\n");
-  const [n, k] = split(lines[0]);
-  const a = initArray(2, 0, n, n);
+  const [n, m, k] = split(lines[0]);
+  const a = initArray(1, 0, m + 1);
   for (let i = 0; i < n; i++) {
     const line = lines[i + 1];
-    const ai = split(line);
-    for (let j = 0; j < n; j++) a[i][j] = ai[j];
+    const [room] = split(line);
+    a[room]++;
   }
-  return { n, k, a };
+  return { m, k, a };
 }
 
-function solve(n, k, a) {
-  const f = initArray(2, 0, n + 1, n + 1);
-  for (let i = 1; i <= n; i++) {
-    for (let j = 1; j <= n; j++) {
-      f[i][j] = a[i - 1][j - 1] + f[i - 1][j] + f[i][j - 1] - f[i - 1][j - 1];
+const P = (n, k) => {
+  const p = Math.floor(n / k);
+  const y = n - p * k;
+  const x = k - y;
+  return (x * p * (p + 1)) / 2 + (y * (p + 1) * (p + 2)) / 2;
+};
+
+function solve(m, k, a) {
+  const f = initArray(2, 0, m + 1, k + 1);
+  for (let i = 1; i <= m; i++) {
+    for (let j = 0; j <= k; j++) {
+      f[i][j] = P(a[i], j + 1);
     }
   }
-  let res = 0;
-  for (let i = k; i <= n; i++) {
-    for (let j = k; j <= n; j++) {
-      const s = f[i][j] - f[i - k][j] - f[i][j - k] + f[i - k][j - k];
-      res = Math.max(res, s);
+  const g = initArray(2, 0, m + 1, k + 1);
+  for (let j = 0; j <= k; j++) g[1][j] = f[1][j]; // room 1
+  for (let i = 2; i <= m; i++) {
+    for (let j = 0; j <= k; j++) {
+      g[i][j] = g[i - 1][j] + f[i][0];
+      for (let t = 1; t <= j; t++) {
+        g[i][j] = Math.min(g[i][j], g[i - 1][j - t] + f[i][t]);
+      }
     }
   }
 
-  console.log(res);
+  console.log(g[m][k]);
 }
 
 function main(stdin_input) {
-  const { n, k, a } = input(stdin_input);
-  solve(n, k, a);
+  const { m, k, a } = input(stdin_input);
+  solve(m, k, a);
 }
