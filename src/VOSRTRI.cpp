@@ -18,16 +18,14 @@ typedef unsigned long long ull;
 #define fillchar(a,x) memset(a, x, sizeof (a))
 #define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-const int   N = 200000;
 struct data {
 	int x,y;
-} a[N];
-int n;
-ll  res, cnt[N];
+};
 
-bool cmp(const data u, const data v) {
-	return ((u.x < v.x) or (u.x == v.x and u.y < v.y));
-}
+const int N = 1e5+5;
+int n, cx[N], cy[N];
+data a[N];
+ll res;
 
 int main() {
 //	freopen("INP.TXT", "r", stdin);
@@ -36,15 +34,10 @@ int main() {
 	scanf("%d", &n);
 	for (int i=1; i<=n; i++) {
 		scanf("%d%d", &a[i].x, &a[i].y);
-		cnt[a[i].y]++;
+		cx[a[i].x]++; cy[a[i].y]++;
 	}
-	sort(a+1,a+n+1,cmp);
-	for (int i=1; i<=n;) {
-		int j = i;
-		while (j < n and a[j+1].x == a[i].x) j++;
-		for (int k=i; k<=j; k++)
-			res += ll(j-i)*(cnt[a[k].y]-1);
-		i = j+1;
+	for (int i=1; i<=n; i++) {
+        res += (cx[a[i].x]-1) * 1ll * (cy[a[i].y]-1);
 	}
 	printf("%lld", res);
 
